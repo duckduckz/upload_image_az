@@ -5,33 +5,21 @@ using Microsoft.Extensions.Logging;
 
 namespace CTAI.lab3UploadImage
 {
-    public class NewImageDetected
+    public class ImageUploadBlobTrigger
     {
-        private readonly ILogger<NewImageDetected> _logger;
+        private readonly ILogger<ImageUploadBlobTrigger> _logger;
 
-        public NewImageDetected(ILogger<NewImageDetected> logger)
+        public ImageUploadBlobTrigger(ILogger<ImageUploadBlobTrigger> logger)
         {
             _logger = logger;
         }
 
-        [Function(nameof(NewImageDetected))]
+        [Function(nameof(ImageUploadBlobTrigger))]
         public async Task Run([BlobTrigger("images/{name}", Connection = "StorageAccount")] Stream stream, string name)
         {
-            _logger.LogInformation($"C# Blob trigger function started processing blob\n Name: {name}");
-
-            try
-            {
-                // Read the content of the uploaded blob
-                using var blobStreamReader = new StreamReader(stream);
-                var content = await blobStreamReader.ReadToEndAsync();
-
-                _logger.LogInformation($"C# Blob trigger function processed blob\n Name: {name} \n Data: {content}");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error processing blob {name}: {ex.Message}");
-                throw;
-            }
+            using var blobStreamReader = new StreamReader(stream);
+            var content = await blobStreamReader.ReadToEndAsync();
+            _logger.LogInformation($"C# Blob trigger function Processed blob\n Name: {name} \n Data: {content}");
         }
     }
 }
