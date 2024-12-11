@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "lab3_azure_storage": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7152",
+      "launchBrowser": false
+    }
+  }
+}
